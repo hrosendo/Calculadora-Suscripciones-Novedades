@@ -13,9 +13,10 @@ const muestraDiasContratados = ( dias, libre = false ) =>{
     let fechaInicialMoment = moment(fechaInicioGMT);
     let fechaFinalMoment = moment(fechaFinal);
     let diferenciaDias =fechaFinalMoment.diff(fechaInicialMoment, 'days')+1;  
-    nTotalDias.innerHTML = `<strong> ${diferenciaDias} dias </strong>`;
-    nFechaExtendida.innerHTML = ""; 
-    nFechaInicio.innerHTML = ""; 
+    $nTotalDias.innerHTML = `<strong> ${diferenciaDias} dias </strong>`;
+    $nFechaExtendida.innerHTML = ""; 
+    $nFechaInicio.innerHTML = ""; 
+    $importe.innerHTML = ""; 
     return {fechaFinal,diferenciaDias};
 }
 
@@ -39,16 +40,19 @@ $fechaInicio = d.getElementById("fechaInicio");
 $fechaFin = d.getElementById("fechaFin") 
 $muestraFechaFinalizacion = d.getElementById("fechaLibreFin")
 $periodoSeleccionado = d.getElementById("periodoSeleccionado")
+$importe = d.getElementById("importe")
+$nFechaInicio = d.getElementById("nFechaInicio")
 $btnCalcular = d.getElementById("btnCalcular")
 $nTotalDias = d.getElementById("nTotalDias")
 $nFechaExtendida = d.getElementById("nFechaExtendida")
 $periodoSeleccionado.innerHTML = "Periodo seleccionado: <b>Ninguno</b>";
 $fechaInicio.value= moment().format('YYYY-MM-DD') 
 $fechaFin.value  = moment().format('YYYY-MM-DD')
-
+ 
 //Variables
 let fechaFinalProcesada;
 let diasPeriodo; 
+let importe;
 
 d.addEventListener("click",e=>{ 
  
@@ -57,6 +61,7 @@ d.addEventListener("click",e=>{
         $periodoSeleccionado.innerHTML = "Periodo seleccionado: <b>Libre</b>";
         fechaFinalProcesada = muestraDiasContratados(0,true);   
         diasPeriodo = 0 ; 
+        importe = "Consulte a su agente"   
         nFechaInicio.innerHTML = ""; 
         nFechaExtendida.innerHTML = ""; 
     } 
@@ -65,20 +70,23 @@ d.addEventListener("click",e=>{
         $muestraFechaFinalizacion.classList.add("hidden");
         $periodoSeleccionado.innerHTML = "Periodo seleccionado: <b>1 Mes</b>";  
         diasPeriodo = 31 ;
+        importe = "$248.00"     
         fechaFinalProcesada = muestraDiasContratados(diasPeriodo);
     }
 
     if(e.target.matches("#btnTresMeses")){       
         $muestraFechaFinalizacion.classList.add("hidden");
         $periodoSeleccionado.innerHTML = "Periodo seleccionado: <b>3 Meses</b>";      
-        diasPeriodo = 91 ;          
+        diasPeriodo = 91 ;   
+        importe = "$624.26"   
         fechaFinalProcesada = muestraDiasContratados(diasPeriodo);
     }
 
     if(e.target.matches("#btnSeisMeses")){       
         $muestraFechaFinalizacion.classList.add("hidden");
         $periodoSeleccionado.innerHTML = "Periodo seleccionado: <b>6 Meses</b>";
-        diasPeriodo = 184 ;          
+        diasPeriodo = 184 ;     
+        importe = "$1,219.92"     
         fechaFinalProcesada = muestraDiasContratados(diasPeriodo);
     }
 
@@ -86,6 +94,8 @@ d.addEventListener("click",e=>{
         $muestraFechaFinalizacion.classList.add("hidden");
         $periodoSeleccionado.innerHTML = "Periodo seleccionado: <b>1 año</b>"; 
         diasPeriodo = 365 ;          
+        importe = "$2,336.00"
+        console.log(importe)
         fechaFinalProcesada = muestraDiasContratados(diasPeriodo);
     }
 
@@ -109,12 +119,14 @@ d.addEventListener("click",e=>{
             }
             let fechaInicioFormato =   moment($fechaInicio.value).format('DD-MMMM-YYYY'); 
             let fechaFinFormato =   moment(fechaFinalPivote).format('DD-MMMM-YYYY'); 
-            nFechaInicio.innerHTML = `<strong>${fechaInicioFormato}</strong>`; 
-            nFechaExtendida.innerHTML = `<strong>${fechaFinFormato}</strong>`; 
-        }else{
-            nTotalDias.innerHTML = "<strong>Error: seleccione un periodo</strong>";
-            nFechaInicio.innerHTML = "<strong>Error: seleccione un periodo</strong>";
-            nFechaExtendida.innerHTML = "<strong>Error: seleccione un periodo</strong>"; 
+            $importe.innerHTML = `<strong>${importe}</strong>`; 
+            $nFechaInicio.innerHTML = `<strong>${fechaInicioFormato}</strong>`; 
+            $nFechaExtendida.innerHTML = `<strong>${fechaFinFormato}</strong>`; 
+        }else{          
+            $nTotalDias.innerHTML = "<strong>Error: seleccione un periodo</strong>";
+            // $importe.innerHTML = "<strong>Error: seleccione un periodo</strong>";
+            // $nFechaInicio.innerHTML = "<strong>Error: seleccione un periodo</strong>";
+            // $nFechaExtendida.innerHTML = "<strong>Error: seleccione un periodo</strong>"; 
         }  
     }
  
